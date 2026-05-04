@@ -1,0 +1,61 @@
+---
+title: "Lebrijaleo project structure: files and directories"
+description: "Explore how Lebrijaleo organizes its source files, configuration, and public assets using the Next.js App Router directory conventions."
+---
+
+This page describes the directory layout of the Lebrijaleo project and explains the purpose of each key file. Understanding this structure will help you find your way around the codebase and know where to add new code.
+
+## Directory tree
+
+```text
+TFG/lebrijaleo/
+├── package.json
+├── next.config.mjs
+├── postcss.config.mjs
+├── jsconfig.json
+├── .gitignore
+├── README.md
+├── public/
+│   ├── file.svg
+│   ├── globe.svg
+│   ├── next.svg
+│   ├── vercel.svg
+│   └── window.svg
+└── src/
+    └── app/
+        ├── favicon.ico
+        ├── globals.css
+        ├── layout.js
+        └── page.js
+```
+
+## Key files
+
+| File | Description |
+|---|---|
+| `src/app/layout.js` | Root layout component. Loads Geist Sans and Geist Mono via `next/font/google`, applies the font CSS variables to the `<html>` element, and exports the site-wide `metadata` object (title: `"Create Next App"`). |
+| `src/app/page.js` | Home page component (`export default function Home`). Uses `next/image` to render the Next.js logo and renders the main page content. |
+| `src/app/globals.css` | Global stylesheet. Imports Tailwind CSS v4 with `@import "tailwindcss"` and defines CSS custom properties for theming: `--background` (`#ffffff` / `#0a0a0a` in dark mode) and `--foreground` (`#171717` / `#ededed` in dark mode). Registers the Geist font variables into the Tailwind theme via `@theme inline`. |
+| `src/app/favicon.ico` | Browser tab icon served automatically by Next.js from the `app/` directory. |
+| `public/` | Static assets served directly from the root URL (`/`). Files here are never processed by Next.js — they are copied as-is to the build output. |
+| `next.config.mjs` | Next.js configuration file. Currently minimal (no custom options set). Extend this file to add redirects, rewrites, image domains, and other framework-level settings. |
+| `postcss.config.mjs` | PostCSS configuration. Registers `@tailwindcss/postcss` as a plugin, which is required by Tailwind CSS v4 to process utility classes at build time. |
+| `jsconfig.json` | JavaScript project configuration used by editors and the Next.js compiler for path aliases and module resolution. |
+| `package.json` | Project manifest. Declares the `dev`, `build`, and `start` scripts and pins the dependency versions: Next.js 16.2.0, React 19.2.4, and Tailwind CSS v4. |
+
+## Adding new pages
+
+The Next.js App Router maps the file system to URL routes. To create a new route, add a `page.js` file inside a named folder under `src/app/`.
+
+For example, creating `src/app/about/page.js` makes the `/about` route available automatically — no router configuration is required.
+
+```text
+src/app/
+├── about/
+│   └── page.js   ← available at /about
+├── globals.css
+├── layout.js
+└── page.js       ← available at /
+```
+
+Shared UI elements (navigation, footer) belong in `layout.js` files. A layout wraps all pages at the same level and below, so edits to `src/app/layout.js` affect every page in the app.

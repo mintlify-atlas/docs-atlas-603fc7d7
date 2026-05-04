@@ -1,0 +1,97 @@
+---
+title: "Pull request workflow and quality checklist for Lebrijaleo"
+description: "Understand how to open, fill out, and get a pull request merged in Lebrijaleo — including the quality checklist and review expectations."
+---
+
+Pull requests are how all changes land in Lebrijaleo. Every PR goes through the same template-driven process: you describe what changed and why, verify your own work with the quality checklist, and then wait for a reviewer or tutor to approve. This page walks you through each step and explains every section of the template.
+
+## Opening a pull request
+
+<Steps>
+  <Step title="Create a branch for your change">
+    Branch off `main` with a descriptive name. For example: `feature/add-map-view` or `fix/audio-player-crash`. Never commit directly to `main`.
+  </Step>
+  <Step title="Make your changes and commit them">
+    Write clear, focused commits. Remove any debug `console.log()` statements and make sure the code compiles before moving on.
+  </Step>
+  <Step title="Open a PR against the main branch on GitHub">
+    Go to the repository on GitHub and open a new pull request targeting `main`. GitHub will automatically load the PR template.
+  </Step>
+  <Step title="Fill out the PR template">
+    Complete every section of the template: write a description, link the related issue, select the change type, and add UI screenshots if the interface changed.
+  </Step>
+  <Step title="Complete the quality checklist">
+    Work through each item in the checklist before requesting review. The checklist is the last gate before your PR is ready for someone else's eyes.
+  </Step>
+  <Step title="Address reviewer feedback and update the PR">
+    Push additional commits to the same branch to address comments. Avoid force-pushing — keep the history intact so reviewers can see what changed.
+  </Step>
+  <Step title="Wait for approval and merge">
+    Once the reviewer or tutor approves the PR, it will be merged into `main`. You do not need to merge it yourself unless you have been asked to.
+  </Step>
+</Steps>
+
+## PR template sections
+
+The project's PR template has five sections. Fill out every applicable section before requesting review.
+
+### 📝 Description (`Descripción`)
+
+Summarise what this PR does and why. A few sentences is enough — focus on the intent, not a line-by-line walkthrough of the diff. If there is relevant background the reviewer needs, include it here.
+
+### 🔗 Related issue (`Issue relacionado`)
+
+Link the GitHub issue this PR addresses using the `Closes` keyword:
+
+```text
+Closes #42
+```
+
+<Tip>
+Using `Closes #<number>` in your PR description automatically closes the linked issue when the PR is merged. This keeps the issue tracker clean without any manual steps.
+</Tip>
+
+### 🚀 Type of change (`Tipo de cambio`)
+
+Check the one type that best describes your PR:
+
+- `✨ Nueva funcionalidad (feature)` — New functionality that did not exist before
+- `🐛 Corrección de error (bugfix)` — A fix for incorrect or broken behaviour
+- `♻️ Refactorización` — Code restructured for clarity or performance, with no behaviour change
+- `🎨 Mejoras de UI/UX o estilos (Tailwind / NativeWind)` — Visual or UX changes
+- `🔧 Configuración del proyecto / Dependencias` — Config files, tooling, or dependency updates
+
+If your PR genuinely covers more than one type, consider splitting it into smaller pull requests.
+
+### 📱 UI changes (`Cambios en la Interfaz`)
+
+If your PR changes anything visible in the browser, include before-and-after screenshots in the table provided by the template:
+
+| Before | After |
+| --- | --- |
+| *(old screenshot or N/A)* | *(new screenshot)* |
+
+If the PR has no UI impact, write `N/A` in both cells or remove the table rows.
+
+### 💡 Additional notes (`Notas adicionales para el revisor / Tutor`)
+
+Use this section for anything that does not fit elsewhere: tricky implementation decisions, known limitations, follow-up issues to open, or specific things you want the reviewer to pay attention to. This section is optional but often useful.
+
+## Quality checklist
+
+Before requesting review, confirm each of the following:
+
+- You reviewed your own code line by line before opening the PR
+- You tested the changes in the browser or emulator (including Expo Go on Android/iOS if applicable), and everything works correctly
+- The code compiles without errors or major warnings
+- You removed unnecessary or debug `console.log()` statements
+- Your code follows the project architecture and style
+- You added or updated comments in any complex functions
+
+<Warning>
+Do not request review until every checklist item is satisfied. Incomplete PRs slow down the review cycle and may be sent back without feedback.
+</Warning>
+
+## Related
+
+For coding standards, branch naming, and commit message conventions, see [Contributing to Lebrijaleo](/contributing/guidelines).

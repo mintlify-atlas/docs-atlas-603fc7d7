@@ -1,0 +1,49 @@
+{
+  "projectType": "frontend",
+  "projectName": "Lebrijaleo",
+  "projectDescription": "A Next.js web application (TFG project) built with React and Tailwind CSS, serving as a community-oriented platform.",
+  "theme": "willow",
+  "primaryColor": "#171717",
+  "lightColor": "#ffffff",
+  "darkColor": "#0a0a0a",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Documentation",
+        "groups": [
+          {
+            "group": "Get Started",
+            "pages": ["introduction", "quickstart", "project-structure"]
+          },
+          {
+            "group": "Development",
+            "pages": ["development/setup", "development/environment", "development/styling"]
+          },
+          {
+            "group": "Deployment",
+            "pages": ["deployment/overview", "deployment/vercel"]
+          },
+          {
+            "group": "Contributing",
+            "pages": ["contributing/guidelines", "contributing/pull-requests"]
+          }
+        ]
+      }
+    ]
+  },
+  "keyFeatures": [
+    "Next.js 16 App Router with React 19",
+    "Tailwind CSS v4 for utility-first styling",
+    "Dark mode support via CSS variables",
+    "Geist font family for modern typography",
+    "Optimized image handling with next/image",
+    "Structured PR workflow with quality checklist"
+  ],
+  "publicApiSurface": [
+    "Home page component (src/app/page.js)",
+    "Root layout with metadata (src/app/layout.js)",
+    "Global CSS with theme variables (src/app/globals.css)",
+    "Next.js config (next.config.mjs)",
+    "npm scripts: dev, build, start"
+  ]
+}

@@ -1,0 +1,61 @@
+---
+title: "Deploy Lebrijaleo on Vercel with zero-config CI/CD"
+description: "Step-by-step guide to deploying Lebrijaleo on Vercel — the recommended platform for Next.js apps — with automatic previews and CI/CD."
+---
+
+Vercel is the recommended platform for deploying Lebrijaleo. It is built by the same team behind Next.js, so it supports every Next.js feature — including the App Router, server components, API routes, and image optimization — with no additional configuration. Deployments are triggered automatically on every push, and pull requests receive isolated preview URLs.
+
+## Deploy via the Vercel dashboard
+
+<Steps>
+  <Step title="Push your code to GitHub">
+    Make sure your latest changes are pushed to the [alcorher/TFG](https://github.com/alcorher/TFG) repository on GitHub. Vercel connects directly to your repository and deploys from it.
+  </Step>
+  <Step title="Log in to Vercel">
+    Go to [vercel.com](https://vercel.com) and log in with your GitHub account. If you do not have an account, create one — it is free for personal and open-source projects.
+  </Step>
+  <Step title="Import the repository">
+    Click **New Project** from your Vercel dashboard, then select the **alcorher/TFG** repository from the list. Grant Vercel access to the repository if prompted.
+  </Step>
+  <Step title="Set the root directory">
+    Because the Next.js app lives inside a subdirectory, you must tell Vercel where to find it. Under **Root Directory**, enter `lebrijaleo`. Vercel will run all build commands relative to this path.
+  </Step>
+  <Step title="Leave build settings as defaults">
+    Vercel automatically detects that the project uses Next.js and pre-fills the build command (`next build`) and output directory (`.next`). You do not need to change these settings.
+  </Step>
+  <Step title="Click Deploy">
+    Click **Deploy**. Vercel builds the project and publishes it to a `.vercel.app` URL. The first deployment takes a minute or two; subsequent deployments are faster thanks to build caching.
+  </Step>
+</Steps>
+
+<Note>
+  Every pull request opened against the repository automatically receives a unique preview URL. Preview deployments are isolated from production and are useful for reviewing changes before merging.
+</Note>
+
+## What you get out of the box
+
+- **Automatic HTTPS** — all deployments are served over TLS with no certificate management required.
+- **Global CDN** — static assets and pre-rendered pages are distributed to Vercel's edge network worldwide.
+- **Zero-config CI/CD** — pushing to your default branch re-deploys production; pushing to any other branch creates a preview deployment.
+
+## Alternative: Vercel CLI
+
+If you prefer to deploy from the terminal without going through the dashboard, use the Vercel CLI.
+
+Install the CLI globally:
+
+```bash
+npm i -g vercel
+```
+
+Then run the following command from the `lebrijaleo/` directory:
+
+```bash
+vercel
+```
+
+The CLI guides you through linking your local project to a Vercel account and project, then builds and deploys it. Subsequent runs of `vercel` create preview deployments; run `vercel --prod` to deploy to production.
+
+<Tip>
+  If your app reads environment variables (for example, API keys or database URLs), add them in the Vercel dashboard under **Project Settings → Environment Variables**. Variables are scoped per environment — Production, Preview, and Development — so you can use different values for each.
+</Tip>

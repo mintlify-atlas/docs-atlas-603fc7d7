@@ -1,0 +1,68 @@
+---
+title: "Contribution guidelines and code standards for Lebrijaleo"
+description: "Learn the contribution workflow for Lebrijaleo, including coding standards, commit conventions, and the review process for pull requests."
+---
+
+Lebrijaleo is a collaborative TFG project, and every contribution matters. Whether you are fixing a bug, adding a feature, or improving the UI, following these guidelines keeps the codebase consistent and the review process smooth for everyone involved.
+
+## General principles
+
+Before opening a pull request, make sure you have followed these practices:
+
+- **Review your own code line by line** before opening a PR. Catching your own mistakes saves review time.
+- **Test all changes** in the browser or emulator to confirm everything works as expected.
+- **Remove debug `console.log()` statements** — leave the codebase clean for the next contributor.
+- **Follow the established code architecture and style** so the project remains coherent as it grows.
+- **Add comments to complex functions** to make your intent clear to reviewers and future contributors.
+
+## Code style
+
+Lebrijaleo is built with Next.js 16, React 19, and Tailwind CSS v4. Keep these conventions in mind when writing code:
+
+- **Follow Next.js App Router conventions.** Place pages under `app/`, use layouts and server components where appropriate, and avoid mixing Pages Router patterns.
+- **Use Tailwind CSS v4 utility classes.** Do not write inline styles or custom CSS unless there is no Tailwind equivalent.
+- **Prefer functional React components.** Use hooks for state and side effects; avoid class components.
+- **Use `next/image` for all images.** The built-in `Image` component handles optimisation, lazy loading, and responsive sizing automatically.
+- **Use `next/font` for fonts.** Fonts are already configured in `layout.js` — do not import fonts through CSS or external `<link>` tags.
+
+## Branch strategy
+
+Create a new branch for every change. Branch off `main` and give your branch a descriptive name that reflects the work, for example:
+
+```text
+feature/add-map-view
+fix/audio-player-crash
+refactor/homepage-layout
+```
+
+Avoid working directly on `main`.
+
+## Commit messages
+
+Write commit messages in English or Spanish. Aim for a short, descriptive subject line that explains *what* the commit does and *why* if it is not obvious:
+
+```text
+Add audio playback controls to SongCard component
+Fix: prevent crash when location permission is denied
+Refactor homepage layout for mobile breakpoints
+```
+
+## Change types
+
+When you open a pull request, you will select one of the following change types in the PR template. Use these same categories to guide your branch name and commit messages:
+
+| Emoji | Type | When to use |
+| --- | --- | --- |
+| ✨ | New feature | You are adding functionality that did not exist before |
+| 🐛 | Bug fix | You are correcting incorrect behaviour |
+| ♻️ | Refactoring | You are improving code structure without changing behaviour |
+| 🎨 | UI/UX or style improvements (Tailwind) | You are changing the appearance or user experience |
+| 🔧 | Project configuration / dependencies | You are updating config files, dependencies, or tooling |
+
+<Note>
+These categories come directly from the project's PR template. Pick the one that best describes your change — if your PR spans multiple types, consider splitting it into smaller, focused pull requests.
+</Note>
+
+## Next steps
+
+Once your branch is ready, follow the PR workflow to open a pull request, complete the quality checklist, and request a review. See [Pull request process](/contributing/pull-requests) for the full step-by-step guide.

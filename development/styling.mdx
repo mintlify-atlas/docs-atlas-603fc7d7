@@ -1,0 +1,120 @@
+---
+title: "Tailwind CSS v4 theming and dark mode in Lebrijaleo"
+description: "Understand how Tailwind CSS v4 and CSS custom properties power Lebrijaleo's theming system, including dark mode and font configuration."
+---
+
+Lebrijaleo uses Tailwind CSS v4 alongside CSS custom properties to implement a flexible theming system with automatic dark mode support. The styling is centralized in `src/app/globals.css`, which is imported once in the root layout.
+
+## globals.css overview
+
+The entire theming system lives in a single file:
+
+```css src/app/globals.css
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+```
+
+## Tailwind CSS v4 import
+
+In Tailwind v4, you no longer use the three `@tailwind` directives from v3. Instead, a single import replaces them:
+
+```css
+/* Tailwind v4 */
+@import "tailwindcss";
+
+/* Old Tailwind v3 (don't use) */
+/* @tailwind base; */
+/* @tailwind components; */
+/* @tailwind utilities; */
+```
+
+This import is processed by the `@tailwindcss/postcss` plugin configured in `postcss.config.mjs`.
+
+## CSS custom properties and theming
+
+The `:root` block defines two CSS variables that control the app's color scheme:
+
+| Variable | Light value | Dark value |
+|----------|-------------|------------|
+| `--background` | `#ffffff` | `#0a0a0a` |
+| `--foreground` | `#171717` | `#ededed` |
+
+Dark mode is handled automatically via `@media (prefers-color-scheme: dark)` — no JavaScript toggle or class required. When a user's system is in dark mode, the variables update and the entire UI adapts.
+
+## The @theme inline block
+
+The `@theme inline` block bridges CSS custom properties and Tailwind utilities:
+
+```css
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+```
+
+This makes the theme values available as Tailwind utility classes:
+- `bg-background` / `text-background` — uses `--color-background`
+- `bg-foreground` / `text-foreground` — uses `--color-foreground`
+- `font-sans` — uses the Geist Sans variable
+- `font-mono` — uses the Geist Mono variable
+
+## Font setup
+
+Fonts are loaded in `src/app/layout.js` via `next/font/google`, which injects CSS variables at the `<html>` element:
+
+```js
+const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
+const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
+```
+
+The `@theme inline` block in `globals.css` then picks up these variables and registers them as Tailwind font tokens (`font-sans`, `font-mono`).
+
+## Using dark mode in components
+
+Reference the existing home page for how dark: variants work in practice:
+
+```js src/app/page.js
+// Dark mode via Tailwind dark: variants
+<div className="bg-zinc-50 dark:bg-black">
+  <h1 className="text-black dark:text-zinc-50">...</h1>
+  <p className="text-zinc-600 dark:text-zinc-400">...</p>
+</div>
+```
+
+<Tip>
+To add a new design token (e.g., a brand color), add it to the `@theme inline` block in `globals.css`. It immediately becomes available as a Tailwind utility class:
+
+```css
+@theme inline {
+  --color-brand: #your-color;
+}
+```
+
+Then use it as `bg-brand`, `text-brand`, `border-brand`, etc.
+</Tip>

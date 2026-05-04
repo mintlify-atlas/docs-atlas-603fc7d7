@@ -1,0 +1,103 @@
+---
+title: "Build and deploy Lebrijaleo to a production server"
+description: "Learn how to build and deploy Lebrijaleo for production, including the build process, output modes, and platform options available."
+---
+
+Lebrijaleo ships as a standard Next.js application, which gives you several deployment options ranging from fully managed platforms to self-hosted servers. The approach you choose depends on whether you need server-side features — such as API routes or dynamic server components — or whether a fully static export is sufficient.
+
+## Production build process
+
+Deploying Lebrijaleo to production is a two-step process:
+
+1. **`npm run build`** — runs `next build`, which performs static analysis, pre-renders routes, and produces an optimized production build in the `.next/` directory.
+2. **`npm run start`** — runs `next start`, which serves that build using a Node.js server.
+
+Run the build command first:
+
+<CodeGroup>
+
+```bash npm
+npm run build
+```
+
+```bash yarn
+yarn build
+```
+
+```bash pnpm
+pnpm build
+```
+
+```bash bun
+bun run build
+```
+
+</CodeGroup>
+
+Then start the production server:
+
+<CodeGroup>
+
+```bash npm
+npm run start
+```
+
+```bash yarn
+yarn start
+```
+
+```bash pnpm
+pnpm start
+```
+
+```bash bun
+bun run start
+```
+
+</CodeGroup>
+
+## What `next build` does
+
+When you run `next build`, Next.js:
+
+- Compiles and bundles all JavaScript and CSS assets.
+- Pre-renders pages that can be statically generated at build time.
+- Generates a route manifest and optimizes chunk splitting for production.
+
+The output is written to `.next/`, which `next start` reads at runtime.
+
+## Output modes
+
+By default, Lebrijaleo runs as a **Node.js server**, which supports the full Next.js feature set including API routes, server components with dynamic data, middleware, and incremental static regeneration.
+
+If you want to deploy to a static file host — such as GitHub Pages, Netlify (static), or an S3 bucket — you can enable static export by adding `output: 'export'` to `next.config.mjs`:
+
+```js next.config.mjs
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  output: 'export',
+};
+
+export default nextConfig;
+```
+
+With this setting, `next build` writes the entire site as plain HTML, CSS, and JavaScript files to an `out/` directory, with no Node.js server required at runtime.
+
+<Warning>
+  Static export disables all server-side Next.js features. API routes, server components that fetch dynamic data, middleware, and image optimization via `next/image` will not work. Only use this mode if your app does not rely on any server-side functionality.
+</Warning>
+
+## Deployment platforms
+
+| Platform | Mode | Notes |
+|---|---|---|
+| Vercel | Node.js server | Recommended. Zero-config, auto-detects Next.js. |
+| Self-hosted Node.js | Node.js server | Run `next start` on any Node.js 18+ server. |
+| Docker | Node.js server | Build a container image and run `next start` inside it. |
+| GitHub Pages / S3 | Static export | Requires `output: 'export'` in `next.config.mjs`. |
+
+<CardGroup cols={1}>
+  <Card title="Deploy on Vercel" icon="triangle" href="/deployment/vercel">
+    Step-by-step guide to deploying Lebrijaleo on Vercel with automatic previews and CI/CD.
+  </Card>
+</CardGroup>

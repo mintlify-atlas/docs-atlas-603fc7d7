@@ -1,0 +1,93 @@
+---
+title: "Set up the Lebrijaleo local development environment"
+description: "Configure your local development environment for Lebrijaleo, including Node.js requirements, editor setup, and recommended extensions."
+---
+
+This page walks you through everything you need to work on Lebrijaleo locally — from installing prerequisites to running the development server and understanding the available npm scripts.
+
+## Prerequisites
+
+Before you begin, make sure you have the following installed:
+
+- **Node.js** 18 or later — the runtime required by Next.js 16
+- **A package manager** — npm (bundled with Node.js), yarn, pnpm, or bun
+- **Git** — for cloning the repository and managing branches
+
+## Recommended editor setup
+
+[Visual Studio Code](https://code.visualstudio.com) works well for this project. Install these extensions for the best experience:
+
+- **[Tailwind CSS IntelliSense](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss)** — autocomplete for Tailwind utility classes
+- **[ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)** — in-editor linting feedback
+- **[Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)** — consistent code formatting
+
+## Path aliases
+
+The project configures a `@/` import alias via `jsconfig.json`, which maps to the `src/` directory:
+
+```json jsconfig.json
+{
+  "compilerOptions": {
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  }
+}
+```
+
+This means you can import from `src/app/globals.css` as `@/app/globals.css` anywhere in the project, avoiding deeply nested relative imports.
+
+## Available npm scripts
+
+The `package.json` defines three scripts:
+
+| Script | Command | Purpose |
+|--------|---------|---------|
+| `dev` | `next dev` | Starts the development server with hot reload at `http://localhost:3000` |
+| `build` | `next build` | Creates an optimized production build in `.next/` |
+| `start` | `next start` | Serves the production build created by `next build` |
+
+<Note>
+There is no `lint` script configured by default. If you want ESLint checking, add `"lint": "next lint"` to the scripts block in `package.json` — Next.js ships with ESLint integration built in.
+</Note>
+
+## Starting the development server
+
+Run the dev script with your preferred package manager:
+
+<CodeGroup>
+```bash npm
+npm run dev
+```
+```bash yarn
+yarn dev
+```
+```bash pnpm
+pnpm dev
+```
+```bash bun
+bun dev
+```
+</CodeGroup>
+
+Once the server starts, open [http://localhost:3000](http://localhost:3000) in your browser. The page automatically refreshes whenever you save changes to any source file.
+
+## Dependencies overview
+
+```json package.json
+{
+  "dependencies": {
+    "next": "16.2.0",
+    "react": "19.2.4",
+    "react-dom": "19.2.4"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "tailwindcss": "^4"
+  }
+}
+```
+
+<Tip>
+Keep `next`, `react`, and `react-dom` versions in sync. React 19 is required for the concurrent features used in Next.js 16's App Router.
+</Tip>
